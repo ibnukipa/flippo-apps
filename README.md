@@ -26,3 +26,11 @@ $ yarn android // or npm run android
 ```shell
 1. create ./index{.ts|.js} file to re-export the contents 
 ```
+
+
+#### DEMO iOS
+https://user-images.githubusercontent.com/12580174/183266171-69710ed9-7088-4f74-ac7a-d8d6151a7cef.mp4
+
+#### DEMO Android
+https://user-images.githubusercontent.com/12580174/183266183-84a5f921-20cc-40f3-b2a9-b2d211d49253.mp4
+
