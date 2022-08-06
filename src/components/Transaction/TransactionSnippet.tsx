@@ -1,15 +1,17 @@
-import React, {useMemo} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useMemo} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import useTransaction from '../../hooks/useTransaction';
 import colors from '../../constants/colors';
-import {ArrowRightIcon, CircleSmallIcon} from '../../assets/icons';
+import {CircleSmallIcon} from '../../assets/icons';
 import convertToCurrencyString from '../../utils/convertToCurrencyString';
 import convertToDateString from '../../utils/convertToDateString';
 import {TransferStatus} from '../../constants/transferStatuses';
 import TransactionStatus from './TransactionStatus';
-import toStartCase from '../../utils/toStartCase';
+import {useNavigation} from '@react-navigation/native';
+import TransactionTransfer from './TransactionTransfer';
 
 const TransactionSnippet = ({id}: {id: string}) => {
+  const navigation = useNavigation();
   const transaction = useTransaction(id);
 
   const grandTotal = useMemo(() => {
@@ -31,22 +33,16 @@ const TransactionSnippet = ({id}: {id: string}) => {
     }
   }, [transaction?.status]);
 
+  const navigateToDetail = useCallback(() => {
+    // ISSUE: https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
+    navigation.navigate('Transaction' as never, {id} as never);
+  }, [navigation, id]);
+
   return (
-    <View style={[styles.container, {borderLeftColor: labelColor}]}>
-      <View style={styles.transferContainer}>
-        <Text style={styles.transferText}>
-          {toStartCase(transaction?.sender_bank)}
-        </Text>
-        <ArrowRightIcon
-          width={20}
-          height={20}
-          color={colors.black}
-          style={styles.transferDivider}
-        />
-        <Text style={styles.transferText}>
-          {toStartCase(transaction?.beneficiary_bank)}
-        </Text>
-      </View>
+    <TouchableOpacity
+      onPress={navigateToDetail}
+      style={[styles.container, {borderLeftColor: labelColor}]}>
+      <TransactionTransfer id={id} />
       <View style={styles.transferReceiverContainer}>
         <Text style={styles.transferReceiverText}>
           {transaction?.beneficiary_name.toUpperCase()}
@@ -63,7 +59,7 @@ const TransactionSnippet = ({id}: {id: string}) => {
         />
         <Text style={styles.transferDetailDateText}>{date}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -74,17 +70,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 6,
     borderLeftWidth: 6,
-  },
-  transferContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  transferText: {
-    fontWeight: '600',
-    fontSize: 18,
-  },
-  transferDivider: {
-    marginHorizontal: 4,
   },
   transferReceiverContainer: {
     flexDirection: 'row',

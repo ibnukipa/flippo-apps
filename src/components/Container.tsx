@@ -3,8 +3,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {StyleSheet} from 'react-native';
 import colors from '../constants/colors';
 
-const Container = (props: PropsWithChildren) => {
-  return <SafeAreaView style={styles.container}>{props.children}</SafeAreaView>;
+const Container = (props: PropsWithChildren<{noPadding?: boolean}>) => {
+  return (
+    <SafeAreaView
+      style={[styles.container, props.noPadding && styles.noPadding]}>
+      {props.children}
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -12,6 +17,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.whiteMilky,
     padding: 8,
+  },
+  noPadding: {
+    paddingHorizontal: 0,
   },
 });
 
