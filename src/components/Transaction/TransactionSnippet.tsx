@@ -5,6 +5,9 @@ import colors from '../../constants/colors';
 import {ArrowRight, CircleSmall} from '../../assets/icons';
 import convertToCurrencyString from '../../utils/convertToCurrencyString';
 import convertToDateString from '../../utils/convertToDateString';
+import {TransferStatus} from '../../constants/transferStatuses';
+import TransactionStatus from './TransactionStatus';
+import toStartCase from '../../utils/toStartCase';
 
 const TransactionSnippet = ({id}: {id: string}) => {
   const transaction = useTransaction(id);
@@ -15,13 +18,24 @@ const TransactionSnippet = ({id}: {id: string}) => {
 
   const date = useMemo(() => {
     return convertToDateString(transaction?.completed_at);
-  }, [transaction?.completed_at])
+  }, [transaction?.completed_at]);
+
+  const labelColor = useMemo(() => {
+    switch (transaction?.status) {
+      case TransferStatus.SUCCESS:
+        return colors.green;
+      case TransferStatus.PENDING:
+        return colors.orange;
+      default:
+        return colors.black;
+    }
+  }, [transaction?.status]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {borderLeftColor: labelColor}]}>
       <View style={styles.transferContainer}>
         <Text style={styles.transferText}>
-          {transaction?.sender_bank.toUpperCase()}
+          {toStartCase(transaction?.sender_bank)}
         </Text>
         <ArrowRight
           width={20}
@@ -30,17 +44,20 @@ const TransactionSnippet = ({id}: {id: string}) => {
           style={styles.transferDivider}
         />
         <Text style={styles.transferText}>
-          {transaction?.beneficiary_bank.toUpperCase()}
+          {toStartCase(transaction?.beneficiary_bank)}
         </Text>
       </View>
-      <Text style={styles.transferReceiverText}>
-        {transaction?.beneficiary_name.toUpperCase()}
-      </Text>
+      <View style={styles.transferReceiverContainer}>
+        <Text style={styles.transferReceiverText}>
+          {transaction?.beneficiary_name.toUpperCase()}
+        </Text>
+        <TransactionStatus status={transaction?.status} />
+      </View>
       <View style={styles.transferDetailContainer}>
         <Text style={styles.transferDetailAmountText}>{grandTotal}</Text>
         <CircleSmall
-          width={14}
-          height={14}
+          width={12}
+          height={12}
           color={colors.black}
           style={styles.transferDetailDivider}
         />
@@ -56,7 +73,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     padding: 16,
     borderRadius: 6,
-    borderLeftColor: colors.orange,
     borderLeftWidth: 6,
   },
   transferContainer: {
@@ -70,9 +86,14 @@ const styles = StyleSheet.create({
   transferDivider: {
     marginHorizontal: 4,
   },
+  transferReceiverContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 6,
+  },
   transferReceiverText: {
     fontSize: 18,
-    marginVertical: 4,
   },
   transferDetailContainer: {
     flexDirection: 'row',

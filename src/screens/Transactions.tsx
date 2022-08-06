@@ -3,7 +3,7 @@
  */
 
 import React, {useCallback} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import Container from '../components/Container';
 import useList from '../hooks/useList';
 import getTransactions from '../services/getTransactions';
