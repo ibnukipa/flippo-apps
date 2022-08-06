@@ -30,20 +30,21 @@ const useList = ({
 
     const newOriginalData = [];
     for (let itemKey in response) {
-      // TODO make sure the itemKey is always the ID
+      // TODO make sure the itemKey is always the entity ID
       const responseItemData = response[itemKey];
       const itemData = {
         ...(reformatModel ? reformatModel(responseItemData) : responseItemData),
         id: itemKey,
       };
       newOriginalData.push(itemData);
+
+      // insert to local DB instead using the global state (redux)
       upsert({
         data: itemData,
         model,
       });
     }
 
-    //list state update
     const dataKeys = Object.keys(response);
     setOriginalData(newOriginalData);
     setData(dataKeys);

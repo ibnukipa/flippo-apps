@@ -36,6 +36,7 @@ const Transactions = () => {
   }, []);
 
   const renderItem = useCallback(({item}: {item: string}) => {
+    // Only pass the ID of entity instead rather than pass a whole object
     return <TransactionSnippet id={item} />;
   }, []);
 
@@ -43,6 +44,7 @@ const Transactions = () => {
     return <TransactionFilter onSearch={onSearch} onSort={onSort} />;
   }, [onSearch, onSort]);
 
+  // always use the memo when remapping a list
   const filteredData = useMemo(() => {
     let newData = [...originalData];
     newData = newData.filter(item => {
@@ -89,6 +91,7 @@ const Transactions = () => {
         break;
     }
 
+    // only use the IDs for the list
     return newData.map(item => item.id);
   }, [originalData, searchKey, sortKey]);
 
