@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import Transactions from '../screens/Transactions';
 import Transaction from '../screens/Transaction';
 import {NavigationContainer} from '@react-navigation/native';

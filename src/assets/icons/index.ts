@@ -1,2 +1,4 @@
-export {default as ArrowRight} from './arrow-right.svg';
-export {default as CircleSmall} from './circle-small.svg';
+export {default as ArrowRightIcon} from './arrow-right.svg';
+export {default as CircleSmallIcon} from './circle-small.svg';
+export {default as SearchIcon} from './search.svg';
+export {default as AngleDownIcon} from './angle-down.svg';

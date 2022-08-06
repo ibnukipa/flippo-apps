@@ -5,19 +5,13 @@ import useRealm from './useRealm';
 const useTransaction = (id: string) => {
   const [transaction, setTransaction] = useState<any>(null);
 
-  const {realm} = useRealm();
+  const {realm} = useRealm(id);
 
   useEffect(() => {
-    const item = realm?.objectForPrimaryKey(TransactionSchemaName, id);
-
-    setTransaction(item);
-    item?.addListener(() => {
+    if (realm && id) {
+      const item = realm.objectForPrimaryKey(TransactionSchemaName, id);
       setTransaction(item);
-    });
-
-    return () => {
-      item?.removeAllListeners();
-    };
+    }
   }, [realm, id]);
 
   return transaction;

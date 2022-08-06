@@ -13,6 +13,7 @@ const useList = ({
   reformatModel?: Function;
 }) => {
   const [data, setData] = useState<any>([]);
+  const [originalData, setOriginalData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const {upsert} = useRealm();
@@ -27,6 +28,7 @@ const useList = ({
       return;
     }
 
+    const newOriginalData = [];
     for (let itemKey in response) {
       // TODO make sure the itemKey is always the ID
       const responseItemData = response[itemKey];
@@ -34,6 +36,7 @@ const useList = ({
         ...(reformatModel ? reformatModel(responseItemData) : responseItemData),
         id: itemKey,
       };
+      newOriginalData.push(itemData);
       upsert({
         data: itemData,
         model,
@@ -42,6 +45,7 @@ const useList = ({
 
     //list state update
     const dataKeys = Object.keys(response);
+    setOriginalData(newOriginalData);
     setData(dataKeys);
     setIsLoading(false);
   }, [fetcher, model, query, reformatModel, upsert]);
@@ -55,7 +59,7 @@ const useList = ({
     refresh();
   }, [refresh]);
 
-  return [data, isLoading, refresh];
+  return {data, originalData, isLoading, refresh};
 };
 
 export default useList;

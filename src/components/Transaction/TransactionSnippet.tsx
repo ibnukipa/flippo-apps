@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import useTransaction from '../../hooks/useTransaction';
 import colors from '../../constants/colors';
-import {ArrowRight, CircleSmall} from '../../assets/icons';
+import {ArrowRightIcon, CircleSmallIcon} from '../../assets/icons';
 import convertToCurrencyString from '../../utils/convertToCurrencyString';
 import convertToDateString from '../../utils/convertToDateString';
 import {TransferStatus} from '../../constants/transferStatuses';
@@ -17,8 +17,8 @@ const TransactionSnippet = ({id}: {id: string}) => {
   }, [transaction?.grand_total]);
 
   const date = useMemo(() => {
-    return convertToDateString(transaction?.completed_at);
-  }, [transaction?.completed_at]);
+    return convertToDateString(transaction?.created_at);
+  }, [transaction?.created_at]);
 
   const labelColor = useMemo(() => {
     switch (transaction?.status) {
@@ -37,7 +37,7 @@ const TransactionSnippet = ({id}: {id: string}) => {
         <Text style={styles.transferText}>
           {toStartCase(transaction?.sender_bank)}
         </Text>
-        <ArrowRight
+        <ArrowRightIcon
           width={20}
           height={20}
           color={colors.black}
@@ -55,7 +55,7 @@ const TransactionSnippet = ({id}: {id: string}) => {
       </View>
       <View style={styles.transferDetailContainer}>
         <Text style={styles.transferDetailAmountText}>{grandTotal}</Text>
-        <CircleSmall
+        <CircleSmallIcon
           width={12}
           height={12}
           color={colors.black}
