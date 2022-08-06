@@ -3,7 +3,7 @@
  */
 
 import React, {useCallback} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 import Container from '../components/Container';
 import useList from '../hooks/useList';
 import getTransactions from '../services/getTransactions';
@@ -32,13 +32,14 @@ const Transactions = () => {
 
   return (
     <Container>
-      <FlatList data={data} renderItem={renderItem} />
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        onRefresh={refresh}
+        refreshing={isLoading}
+      />
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {},
-});
 
 export default Transactions;

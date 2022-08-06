@@ -1,5 +1,3 @@
-type transferStatuses = {SUCCESS: string; PENDING: string};
-
 const TransferStatus = {
   SUCCESS: 'SUCCESS',
   PENDING: 'PENDING',
