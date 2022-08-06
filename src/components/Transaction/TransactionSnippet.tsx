@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   },
   transferReceiverText: {
     fontSize: 18,
+    color: colors.black,
   },
   transferDetailContainer: {
     flexDirection: 'row',
@@ -86,9 +87,11 @@ const styles = StyleSheet.create({
   },
   transferDetailAmountText: {
     fontSize: 18,
+    color: colors.black,
   },
   transferDetailDateText: {
     fontSize: 18,
+    color: colors.black,
   },
   transferDetailDivider: {
     marginHorizontal: 4,

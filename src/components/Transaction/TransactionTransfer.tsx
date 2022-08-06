@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   transferText: {
     fontWeight: '600',
     fontSize: 18,
+    color: colors.black,
   },
   transferDivider: {
     marginHorizontal: 4,

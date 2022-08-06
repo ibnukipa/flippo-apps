@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   optionItemText: {
     flex: 1,
     fontSize: 18,
+    color: colors.black,
   },
   optionCircle: {
     padding: 2,
